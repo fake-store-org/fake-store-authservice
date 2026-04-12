@@ -19,13 +19,13 @@ jobs:
           cache: 'maven'
 
       - name: Run Tests
-        run: ./mvnw -DskipTests
+        run: ./mvnw package -DskipTests
 
   build:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: Chekcout code
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Login to Docker Hub
