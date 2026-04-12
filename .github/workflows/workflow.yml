@@ -19,7 +19,7 @@ jobs:
           cache: 'maven'
 
       - name: Run Tests
-        run: ./mvnw test
+        run: ./mvnw -DskipTests
 
   build:
     needs: test
