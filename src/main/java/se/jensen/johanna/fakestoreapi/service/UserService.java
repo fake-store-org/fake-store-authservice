@@ -19,7 +19,6 @@ public class UserService {
 
   private final PasswordEncoder passwordEncoder;
   private final UserMapper userMapper;
-
   private final UserRepository userRepository;
 
   @Transactional
