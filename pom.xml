@@ -10,10 +10,10 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>se.jensen.johanna</groupId>
-  <artifactId>fake-store-api</artifactId>
+  <artifactId>fake-store-auth-service</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>fake-store-api</name>
-  <description>fake-store-api</description>
+  <name>fake-store-auth-service</name>
+  <description>handles user authentication and token management</description>
   <url/>
   <licenses>
     <license/>

@@ -8,13 +8,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,10 +43,6 @@ public class AppUser {
 
   @Embedded
   private Address address;
-
-  @OneToMany(mappedBy = "buyer")
-  @Builder.Default
-  private List<Order> orders = new ArrayList<>();
 
 
   private Instant createdAt;
