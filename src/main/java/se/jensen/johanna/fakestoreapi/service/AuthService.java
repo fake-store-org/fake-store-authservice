@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import se.jensen.johanna.fakestoreapi.dto.AuthResult;
 import se.jensen.johanna.fakestoreapi.dto.LoginRequest;
 import se.jensen.johanna.fakestoreapi.dto.LoginResponse;
+import se.jensen.johanna.fakestoreapi.dto.RefreshResponse;
+import se.jensen.johanna.fakestoreapi.dto.RefreshResult;
 import se.jensen.johanna.fakestoreapi.dto.RegisterUserRequest;
 import se.jensen.johanna.fakestoreapi.model.AppUser;
 import se.jensen.johanna.fakestoreapi.model.RefreshToken;
@@ -59,6 +61,22 @@ public class AuthService {
         refreshTokenService.createRefreshToken(user.getUserId()).getToken());
 
 
+  }
+
+  public RefreshResult refresh(String oldRefreshToken) {
+    RefreshToken oldToken = refreshTokenService.findByToken(oldRefreshToken);
+    refreshTokenService.verifyExpiration(oldToken);
+    RefreshToken newRefreshToken = refreshTokenService.rotateRefreshToken(oldToken);
+    AppUser user = newRefreshToken.getUser();
+    String newAccessToken = tokenService.generateToken(user.getUserId(),
+        List.of("ROLE_" + user.getRole().name()), user.getEmail());
+    return new RefreshResult(new RefreshResponse(newAccessToken), newRefreshToken.getToken());
+
+
+  }
+
+  public void logout(String refreshToken) {
+    refreshTokenService.deleteRefreshToken(refreshTokenService.findByToken(refreshToken));
   }
 
 }
