@@ -3,8 +3,10 @@ package se.jensen.johanna.fakestoreapi.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,8 @@ import se.jensen.johanna.fakestoreapi.controller.webutils.CookieFactory;
 import se.jensen.johanna.fakestoreapi.dto.AuthResult;
 import se.jensen.johanna.fakestoreapi.dto.LoginRequest;
 import se.jensen.johanna.fakestoreapi.dto.LoginResponse;
+import se.jensen.johanna.fakestoreapi.dto.RefreshResponse;
+import se.jensen.johanna.fakestoreapi.dto.RefreshResult;
 import se.jensen.johanna.fakestoreapi.dto.RegisterUserRequest;
 import se.jensen.johanna.fakestoreapi.service.AuthService;
 
@@ -40,5 +44,29 @@ public class AuthController {
         .body(result.loginResponse());
   }
 
+  @PostMapping("/refresh")
+  public ResponseEntity<RefreshResponse> refresh(
+      @CookieValue(name = "refreshToken", required = false) String oldRefreshStr) {
+    if (oldRefreshStr == null) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+    RefreshResult result = authService.refresh(oldRefreshStr);
+    ResponseCookie responseCookie = cookieFactory.createRefreshTokenCookie(result.refreshToken());
+    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+        .body(result.refreshResponse());
+  }
 
+  @PostMapping("/logout")
+  public ResponseEntity<Void> logout(
+      @CookieValue(name = "refreshToken", required = false) String refreshTokenStr
+
+  ) {
+    if (refreshTokenStr != null) {
+      authService.logout(refreshTokenStr);
+    }
+    ResponseCookie cleanCookie = cookieFactory.getCleanResponseCookie();
+
+    return ResponseEntity.noContent().header(HttpHeaders.SET_COOKIE, cleanCookie.toString())
+        .build();
+  }
 }

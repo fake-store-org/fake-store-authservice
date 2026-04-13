@@ -32,16 +32,22 @@ public class RefreshToken {
   private String token;
 
   @OneToOne
-  @JoinColumn(name = "user_id", nullable = false, unique = true)
+  @JoinColumn(name = "user_id", nullable = false)
   private AppUser user;
 
   @Column(nullable = false)
   Instant expiryDate;
 
+  Instant createdAt;
+
   public static RefreshToken create(AppUser user, long durationSeconds) {
     return RefreshToken.builder().user(user).token(UUID.randomUUID().toString())
         .expiryDate(Instant.now().plusSeconds(durationSeconds)).build();
 
+  }
+
+  public boolean isExpired() {
+    return Instant.now().isAfter(expiryDate);
   }
 
 
