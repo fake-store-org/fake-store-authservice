@@ -1,0 +1,33 @@
+databaseType = "PostgreSql"
+id = "cee11540-54ca-420e-9f4c-709ef157d35c"
+name = "auth_db_local"
+
+[flyway]
+callbackLocations = [ "filesystem:callbacks" ]
+locations = [ "filesystem:migrations" ]
+mixed = true
+outOfOrder = true
+schemaModelLocation = "schema-model"
+validateMigrationNaming = true
+
+[flywayDesktop]
+enableMigrations = true
+developmentEnvironment = "development"
+shadowEnvironment = "shadow"
+
+  [flywayDesktop.generate]
+  undoScripts = false
+
+[redgateCompare]
+filterFile = "filter.rgf"
+
+[redgateCompare.postgresql.options.behavior]
+detectRenames = "identical-only"
+
+[redgateCompare.postgresql.options.ignores]
+ignoreNewlinesInTextObjects = "off"
+
+[environments.auth-db-local]
+url = "jdbc:postgresql://localhost:5433/auth_db_local"
+user = "johannajonsson"
+schemas = [ "public" ]
