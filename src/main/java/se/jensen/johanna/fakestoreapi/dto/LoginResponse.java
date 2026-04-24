@@ -1,10 +1,11 @@
 package se.jensen.johanna.fakestoreapi.dto;
 
+import java.util.UUID;
 import se.jensen.johanna.fakestoreapi.model.Role;
 
 public record LoginResponse(
     String accessToken,
-    Long userId,
+    UUID userId,
     Role role,
     String email
 ) {

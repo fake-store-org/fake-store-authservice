@@ -1,5 +1,6 @@
 package se.jensen.johanna.fakestoreapi.service;
 
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class RefreshTokenService {
   private final UserRepository userRepository;
   private final RefreshTokenRepository refreshTokenRepository;
 
-  public RefreshToken createRefreshToken(Long userId) {
+  public RefreshToken createRefreshToken(UUID userId) {
     AppUser user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
     refreshTokenRepository.deleteByUser(user);
     refreshTokenRepository.flush();
