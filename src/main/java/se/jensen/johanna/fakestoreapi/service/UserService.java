@@ -1,7 +1,9 @@
 package se.jensen.johanna.fakestoreapi.service;
 
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.jensen.johanna.fakestoreapi.dto.AddressRequest;
@@ -33,7 +35,8 @@ public class UserService {
   }
 
   @Transactional
-  public AddressResponse updateAddress(Long userId, AddressRequest request) {
+  public AddressResponse updateAddress(Jwt jwt, AddressRequest request) {
+    UUID userId = UUID.fromString(jwt.getSubject());
     AppUser user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
     Address address = userMapper.toAddress(request);
     user.updateAddress(address);

@@ -2,6 +2,7 @@ package se.jensen.johanna.fakestoreapi.security;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +32,7 @@ public class MyUserDetails implements UserDetails {
     return appUser.getEmail();
   }
 
-  public Long getUserId() {
+  public UUID getUserId() {
     return appUser.getUserId();
   }
 

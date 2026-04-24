@@ -23,7 +23,6 @@ public class UserController {
   @PutMapping("/address")
   public ResponseEntity<AddressResponse> updateAddress(@AuthenticationPrincipal Jwt jwt,
       @RequestBody @Valid AddressRequest request) {
-    Long userId = Long.parseLong(jwt.getSubject());
-    return ResponseEntity.ok(userService.updateAddress(userId, request));
+    return ResponseEntity.ok(userService.updateAddress(jwt, request));
   }
 }

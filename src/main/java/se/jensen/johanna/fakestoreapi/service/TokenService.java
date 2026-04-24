@@ -3,6 +3,7 @@ package se.jensen.johanna.fakestoreapi.service;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -18,7 +19,7 @@ public class TokenService {
   @Value("${jwt.expiration-minutes}")
   private Long jwtExpirationMinutes;
 
-  public String generateToken(Long userId, List<String> roles, String email) {
+  public String generateToken(UUID userId, List<String> roles, String email) {
     Instant now = Instant.now();
     Instant expiresAt = now.plus(jwtExpirationMinutes, ChronoUnit.MINUTES);
 
