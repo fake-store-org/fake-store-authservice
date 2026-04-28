@@ -5,6 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TokenService {
 
   private final JwtEncoder jwtEncoder;
@@ -20,6 +22,7 @@ public class TokenService {
   private Long jwtExpirationMinutes;
 
   public String generateToken(UUID userId, List<String> roles, String email) {
+    log.info("Generating JWT token for user: {}", email);
     Instant now = Instant.now();
     Instant expiresAt = now.plus(jwtExpirationMinutes, ChronoUnit.MINUTES);
 
@@ -31,7 +34,7 @@ public class TokenService {
         .claim("email", email)
         .claim("scope", roles)
         .build();
-
+    log.info("Successfully generated JWT token for user: {}", email);
     return jwtEncoder.encode(JwtEncoderParameters.from(claimsSet)).getTokenValue();
 
   }
