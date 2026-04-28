@@ -20,5 +20,4 @@ public record RegisterUserRequest(
     @NotBlank(message = "Please confirm password")
     String confirmPassword) {
 
-
 }
