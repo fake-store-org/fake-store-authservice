@@ -6,10 +6,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -19,7 +19,7 @@ jobs:
           cache: 'maven'
 
       - name: Run Tests
-        run: ./mvnw package -DskipTests
+        run: ./mvnw verify
 
   build:
     needs: test
