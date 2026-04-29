@@ -38,7 +38,6 @@ public class UserService {
     AppUser user = AppUser.create(request.email(), hashedPw, Role.USER);
     log.info("New user created: {}", user.getEmail());
     return userRepository.save(user);
-
   }
 
   @Transactional
@@ -49,6 +48,7 @@ public class UserService {
         .orElseThrow(() -> new DomainStateException("Unexpected error. User not found"));
     Address address = userMapper.toAddress(request);
     user.updateAddress(address);
+    userRepository.save(user);
     log.info("Address updated for user: {} , {}", user.getEmail(), user.getUserId());
     return userMapper.toAddressResponse(address);
   }
