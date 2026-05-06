@@ -40,3 +40,4 @@ report.json
 
 public.pem
 private.pem
+auth.env
